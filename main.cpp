@@ -5,6 +5,10 @@
 #include <RotaryEncoder.h>
 #include <Wire.h>
 
+/*** SWITCHES
+LOG - log speed
+WORK - send speed to I2C master
+*/
 #define WORK
 
 /***** POUT *****/
@@ -34,14 +38,16 @@ void loop()
   speed_sensor = get_speed(&encoder);
 
 #ifdef WORK
-  update_message(100);
+  update_message(speed_sensor);
 #endif
 
 #ifdef LOG
-  /*** Set params to log ***/
-  const long log_parametrs[] = {millis(), speed_ref, speed_sensor, 0, curr_sensor, PIctrl_curr.y};
+  /************************** Set header and params to log **********************************/
+  const String header = "time,speed_sensor";
+  const long log_parametrs[] = {millis(), speed_sensor};
+  /********************************************************************************************/
 
-  const int num_of_params = sizeof(log_parametrs) / sizeof(log_parametrs[0]);
-  log_uart(log_parametrs, num_of_params);
+  const int NumOfParams = sizeof(log_parametrs) / sizeof(log_parametrs[0]);
+  log_uart(header, log_parametrs, NumOfParams);
 #endif
 }
