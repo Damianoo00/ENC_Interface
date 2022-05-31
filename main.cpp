@@ -1,3 +1,13 @@
+/**
+ * @file main.cpp
+ * @author Damian Płaskowicki (damian.plaskowicki.stud@pw.edu.pl)
+ * @brief Rotary Encoder Controler with i2c comunication on Arduino
+ * @version 0.1
+ * @date 2022-05-31
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include "../include/sensors.h"
 #include "../include/uart.h"
 #include "../include/i2c.h"
@@ -5,10 +15,11 @@
 #include <RotaryEncoder.h>
 #include <Wire.h>
 
-/*** SWITCHES
-LOG - log speed
-WORK - send speed to I2C master
-*/
+/**
+ * @brief define or remove correct line to switch any mode {#define [param]}
+ * @param LOG define to enabel logging
+ * @param WORK  define to send speed value via i2c
+ */
 #define WORK
 
 /***** POUT *****/
@@ -35,7 +46,7 @@ void setup()
 void loop()
 {
 
-  speed_sensor = get_speed(&encoder);
+  speed_sensor = GetSpeed(&encoder);
 
 #ifdef WORK
   update_message(speed_sensor);
